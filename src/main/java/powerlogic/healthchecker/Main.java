@@ -10,8 +10,11 @@ import powerlogic.healthchecker.task.HealthCheckTask;
 
 public class Main {
 
+	public static Thread currentThread;
+	
 	public static void main(String [] args) throws Exception {
 
+		currentThread = Thread.currentThread();
 		ObjectMapper mapper = new ObjectMapper();
 		Configuration configuration = mapper.readValue(new File("configuration.json"), Configuration.class);
 		Timer timer;
@@ -19,7 +22,5 @@ public class Main {
 	        timer = new Timer();
 	        timer.schedule(new HealthCheckTask(app), new Date(), 60*1000);
 		}
-		
-		while(true){}
 	}
 }

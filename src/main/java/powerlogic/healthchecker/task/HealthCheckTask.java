@@ -15,6 +15,7 @@ import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.HeadMethod;
 
 import powerlogic.healthchecker.Application;
+import powerlogic.healthchecker.Main;
 
 public class HealthCheckTask extends TimerTask {
 
@@ -26,6 +27,7 @@ public class HealthCheckTask extends TimerTask {
 
 	@Override
 	public void run() {
+		joinMainThread();
 		HttpClient httpClient = new HttpClient();
 		HeadMethod head = new HeadMethod(app.getEndereco());
 		head.setFollowRedirects(true);
@@ -40,6 +42,14 @@ public class HealthCheckTask extends TimerTask {
 			app.setLastTimeEmailSent(new Date().getTime());
 		}
 
+	}
+
+	protected void joinMainThread() {
+		try{
+			Main.currentThread.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void sendAdminEmail() {
