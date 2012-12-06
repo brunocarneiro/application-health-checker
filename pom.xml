@@ -4,13 +4,17 @@
 	<groupId>powerlogic</groupId>
 	<artifactId>application-health-checker</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	
+
 	<developers>
 		<developer>
 			<email>bruno.carneiro@powerlogic.com.br</email>
 		</developer>
 	</developers>
-	
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
 	<!-- PARA INSTALAR O ARTEFATO UTILIZAR A ROTINA: "clean compile assembly:assembly" -->
 	<dependencies>
 		<dependency>
@@ -40,7 +44,7 @@
 			<version>1.9.9</version>
 		</dependency>
 	</dependencies>
-	
+
 	<build>
 		<plugins>
 			<plugin>
