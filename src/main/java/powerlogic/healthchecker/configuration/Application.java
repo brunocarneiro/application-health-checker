@@ -1,9 +1,9 @@
-package powerlogic.healthchecker;
+package powerlogic.healthchecker.configuration;
 
 public class Application {
 
-	private String nome;
-	private String endereco;
+	private String name;
+	private String url;
 	private String  emailAdmin;
 	private Long lastTimeEmailSent;
 	
@@ -13,17 +13,17 @@ public class Application {
 	public void setLastTimeEmailSent(Long lastTimeEmailSent) {
 		this.lastTimeEmailSent = lastTimeEmailSent;
 	}
-	public String getNome() {
-		return nome;
+	public String getName() {
+		return name;
 	}
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setName(String nome) {
+		this.name = nome;
 	}
-	public String getEndereco() {
-		return endereco;
+	public String getUrl() {
+		return url;
 	}
-	public void setEndereco(String endereco) {
-		this.endereco = endereco;
+	public void setUrl(String endereco) {
+		this.url = endereco;
 	}
 	public String getEmailAdmin() {
 		return emailAdmin;

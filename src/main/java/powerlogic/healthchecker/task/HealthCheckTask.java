@@ -14,22 +14,25 @@ import javax.mail.internet.MimeMessage;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.HeadMethod;
 
-import powerlogic.healthchecker.Application;
 import powerlogic.healthchecker.Main;
+import powerlogic.healthchecker.configuration.Application;
+import powerlogic.healthchecker.configuration.Configuration;
 
 public class HealthCheckTask extends TimerTask {
 
 	private Application app;
+	private Configuration config;
 
-	public HealthCheckTask(Application app) {
+	public HealthCheckTask(Application app, Configuration config) {
 		this.app = app;
+		this.config = config;
 	}
 
 	@Override
 	public void run() {
 		joinMainThread();
 		HttpClient httpClient = new HttpClient();
-		HeadMethod head = new HeadMethod(app.getEndereco());
+		HeadMethod head = new HeadMethod(app.getUrl());
 		head.setFollowRedirects(true);
 		int resultCode = 0;
 		try {
@@ -58,14 +61,14 @@ public class HealthCheckTask extends TimerTask {
 			
 			String to = app.getEmailAdmin();
 			
-			String from = "hudson@powerlogic.com.br";
+			String from = config.getEmailConfig().getFrom();
 			
-			String host = "smtp.powerlogic.com.br";
+			String host = config.getEmailConfig().getHost();
 			
 			Properties properties = System.getProperties();
 			
-			properties.setProperty("mail.user", "hudson@powerlogic.com.br");
-			properties.setProperty("mail.password", "P0w3rl0g1c");
+			properties.setProperty("mail.user", config.getEmailConfig().getUser());
+			properties.setProperty("mail.password", config.getEmailConfig().getPassword());
 			
 			properties.setProperty("mail.smtp.host", host);
 			
@@ -77,11 +80,13 @@ public class HealthCheckTask extends TimerTask {
 				message.addRecipient(Message.RecipientType.TO, new InternetAddress(
 						to));
 				
-				message.setSubject("Aplicação " + app.getNome()
-						+ " está fora do ar.");
+				String subject = translateMsgTemplate(config.getEmailConfig().getMessageSubjectTemplate());
 				
-				message.setText("Aplicação " + app.getNome()
-						+ " está fora do ar. Verifique em: " + app.getEndereco());
+				String text = translateMsgTemplate(config.getEmailConfig().getMessageTemplate());
+				
+				message.setSubject(subject);
+				
+				message.setText(text);
 				
 				// Send message
 				Transport.send(message);
@@ -91,6 +96,10 @@ public class HealthCheckTask extends TimerTask {
 			}
 		}
 
+	}
+
+	protected String translateMsgTemplate(String template) {
+		return template.replace("${appName}", app.getName()).replace("${appURL}", app.getUrl());
 	}
 
 }

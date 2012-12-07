@@ -6,6 +6,8 @@ import java.util.Timer;
 
 import org.codehaus.jackson.map.ObjectMapper;
 
+import powerlogic.healthchecker.configuration.Application;
+import powerlogic.healthchecker.configuration.Configuration;
 import powerlogic.healthchecker.task.HealthCheckTask;
 
 public class Main {
@@ -20,7 +22,7 @@ public class Main {
 		Timer timer;
 		for(Application app : configuration.getApplications()){
 	        timer = new Timer();
-	        timer.schedule(new HealthCheckTask(app), new Date(), 60*1000);
+	        timer.schedule(new HealthCheckTask(app, configuration), new Date(), 60*1000);
 		}
 	}
 }
