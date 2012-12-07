@@ -5,8 +5,8 @@ SIMPLE WEB APPLICATION AVAILABILITY MONITOR
 
 HOW AHC WORKS? 
 
-  Each minute the program sends a HTTP Header for the configured sites. If the site does not respond, AHC sends an email
-  to the site administrator and then continues monitoring.
+  Every minute the program sends a HTTP Header for the configured sites. If the site does not respond, AHC sends an email
+  to the site administrator and then continue monitoring.
 
 HOW DO I BUILD AHC?
 
